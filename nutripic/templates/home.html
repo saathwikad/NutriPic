@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 20px;
+            display: flex;
+            justify-content: flex-end;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            padding: 10px 20px;
+            margin-left: 15px;
+            text-decoration: none;
+            color: white;
+            background-color: hsl(40, 82%, 2%);
+            border-radius: 5px;
+            font-size: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #121515;
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+
+        .main-content h1 {
+            color: hsl(38, 100%, 50%);
+            font-size: 36px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card a {
+            color: hsl(38, 100%, 50%);
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .feature-card a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="{{ url_for('logout') }}" class="button">Logout</a>
+    </header>
+
+    <div class="main-content">
+        <h1>Welcome to Your Dashboard</h1>
+        <p>Choose one of the options below to get started:</p>
+
+        <div class="features">
+            <div class="feature-card">
+                <a href="{{ url_for('read_articles') }}" class="button">Read Articles</a>
+            </div>
+            <div class="feature-card">
+                <a href="{{ url_for('write_articles') }}" class="button">Write Articles</a>
+            </div>
+            <div class="feature-card">
+                <a href="{{ url_for('ml_model_integration') }}" class="button">My ML Model</a>
+            </div>
+            <div class="feature-card">
+                <a href="{{ url_for('health_related') }}" class="button">Health-Related</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutripic</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="/login" class="button">Login</a>
+            <a href="/signup" class="button">Signup</a>
+        </nav>
+    </header>
+    <main>
+        <h1>Welcome to NutriPic</h1>
+        <div class="content">
+            <img src="{{ url_for('static', filename='image.jpg') }}" alt="Placeholder Image">
+            <p>
+                Welcome to my website! This is a simple paragraph that introduces the site. 
+                You can replace this text with anything you'd like.
+            </p>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ML Model Integration</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Custom styles for the table */
+        table {
+            width: 50%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+
+        /* Smaller chart size */
+        #nutritionChart {
+            max-width: 400px;
+            max-height: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Upload an Image for Food Detection</h1>
+
+    <!-- Image upload form -->
+    <form action="{{ url_for('ml_model_integration') }}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/*" required>
+        <button type="submit" class="button">Upload Image</button>
+    </form>
+
+    {% if results %}
+        <!-- Display Results from ML model -->
+        <h2>Prediction Results:</h2>
+        <ul>
+            {% for result in results %}
+                <li>{{ result }}</li>
+            {% endfor %}
+        </ul>
+        
+        <!-- Nutritional Breakdown Table -->
+        <h2>Nutritional Breakdown</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Value (g)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for component, value in components.items() %}
+                    <tr>
+                        <td>{{ component }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Chart.js Visualization -->
+        <h2>Nutrition Chart (Carbohydrates, Proteins, Fats)</h2>
+        <canvas id="nutritionChart"></canvas>
+        <script>
+            const nutritionLabels = ["Carbohydrates", "Proteins", "Fats"];
+            const nutritionValues = [50, 30, 20];
+            
+            
+            const ctx = document.getElementById('nutritionChart').getContext('2d');
+
+            new Chart(ctx, {
+                type: 'pie', 
+                data: {
+                    labels: nutritionLabels,
+                    datasets: [{
+                        label: 'Nutritional Breakdown (g)',
+                        data: nutritionValues,
+                        backgroundColor: ['#3498db', '#e74c3c', '#2ecc71'],
+                        borderColor: ['#2980b9', '#c0392b', '#27ae60'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top'
+                        },
+                        title: {
+                            display: true,
+                            text: 'Nutritional Components'
+                        }
+                    }
+                }
+            });
+        </script>
+    {% endif %}
+</body>
+</html>
