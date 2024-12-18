@@ -197,4 +197,4 @@ if __name__ == '__main__':
         os.makedirs(app.config['UPLOAD_FOLDER'])  # Create the upload folder if it doesn't exist
     with app.app_context():
         db.create_all()  # Ensure the database is created
-    app.run(debug=True)
+    app.run()
