@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }}</title>
+</head>
+<body style="font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px;">
+    <header style="background-color: #ffffff; padding: 20px; text-align: right; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <a href="{{ url_for('read_articles') }}" style="text-decoration: none; padding: 10px 20px; color: white; background-color: hsl(38, 100%, 50%); border-radius: 5px; font-size: 14px;">Back to Articles</a>
+    </header>
+    <main>
+        <h1 style="text-align: center; color: hsl(38, 100%, 50%);">{{ article.title }}</h1>
+        <p style="line-height: 1.6; font-size: 16px; color: #333; margin-top: 20px; max-width: 800px; margin-left: auto; margin-right: auto;">{{ article.content }}</p>
+    </main>
+</body>
+</html>

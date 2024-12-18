@@ -7,7 +7,9 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo, ValidationE
 import os
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
+from wtforms import TextAreaField
 import numpy as np
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'your_secret_key'
@@ -42,6 +44,11 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     submit = SubmitField('Log In')
 
+class WriteArticleForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired(), Length(max=150)])  # Article title
+    content = TextAreaField('Content', validators=[DataRequired()])  # Article content
+    submit = SubmitField('Publish Article')
+
 # Function to check allowed file extensions
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in app.config['ALLOWED_EXTENSIONS']
@@ -57,13 +64,51 @@ def home():
         return redirect(url_for('login'))  # Redirect to login if not authenticated
     return render_template('home.html')  # Render home page
 
+# Article model
+class Article(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(150), nullable=False)
+    content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
+@app.route('/write_articles', methods=['GET', 'POST'])
+def write_articles():
+    form = WriteArticleForm()  # Create an instance of the form
+    if form.validate_on_submit():  # If form is submitted and valid
+        # Create a new article and add it to the database
+        article = Article(title=form.title.data, content=form.content.data)
+        db.session.add(article)
+        db.session.commit()  # Save the article to the database
+        flash('Article published successfully!', 'success')
+        return redirect(url_for('read_articles'))  # Redirect to the Read Articles page
+    return render_template('write_articles.html', form=form)
+
+
 @app.route('/read_articles')
 def read_articles():
-    return render_template('read_articles.html')
+    articles = Article.query.all()  # Fetch all articles from the database
+    return render_template('read_articles.html', articles=articles)
 
-@app.route('/write_articles')
-def write_articles():
-    return render_template('write_articles.html')
+@app.route('/article/<int:article_id>')
+def view_article(article_id):
+    article = Article.query.get_or_404(article_id)
+    return render_template('article.html', article=article)
+
+
+# Routes for individual articles
+@app.route('/article1')
+def article1():
+    return render_template('article1.html', title="The Wonders of Indian Cuisine", content="Indian cuisine is known for its vibrant spices and rich flavors...")
+
+@app.route('/article2')
+def article2():
+    return render_template('article2.html', title="Healthy Eating Habits", content="Maintaining a healthy diet is essential for overall well-being...")
+
+@app.route('/article3')
+def article3():
+    return render_template('article3.html', title="The Science of Food", content="Food plays a critical role in shaping our health and energy levels...")
+
+
 
 @app.route('/ml_model_integration', methods=['GET', 'POST'])
 def ml_model_integration():

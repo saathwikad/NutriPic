@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nutrition Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: hsl(38, 100%, 50%);
+            text-align: center;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .chart-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+        .chart {
+            width: 45%;
+        }
+        .progress-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        .progress-container h2 {
+            color: hsl(38, 100%, 50%);
+        }
+        .progress-bar {
+            width: 100%;
+            background-color: #ddd;
+            border-radius: 10px;
+            height: 30px;
+            margin: 20px 0;
+        }
+        .progress-bar div {
+            height: 100%;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Nutrition Dashboard</h1>
+    <div class="container">
+
+        <!-- Pie Chart Section -->
+        <div class="chart-container">
+            <div class="chart">
+                <h2>Macronutrient Breakdown</h2>
+                <canvas id="macronutrientChart"></canvas>
+            </div>
+            <div class="chart">
+                <h2>Caloric Intake</h2>
+                <canvas id="caloricIntakeChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Progress Bar Section -->
+        <div class="progress-container">
+            <h2>Calories Consumed vs. Goal</h2>
+            <div class="progress-bar">
+                <div id="caloriesProgress" style="width: 70%; background-color: #4caf50;"></div>
+            </div>
+            <p>Calories Goal: 2000 | Calories Consumed: 1400</p>
+        </div>
+
+    </div>
+
+    <script>
+        // Macronutrient Breakdown (Pie Chart)
+        const macronutrientData = {
+            labels: ['Carbohydrates', 'Proteins', 'Fats'],
+            datasets: [{
+                data: [50, 30, 20], // Example data: 50% Carbs, 30% Protein, 20% Fats
+                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                hoverBackgroundColor: ['#FF4384', '#36A2FF', '#FFDE56']
+            }]
+        };
+
+        const macronutrientConfig = {
+            type: 'pie',
+            data: macronutrientData,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw + '%';
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('macronutrientChart'), macronutrientConfig);
+
+        // Caloric Intake (Bar Chart)
+        const caloricIntakeData = {
+            labels: ['Calories Consumed', 'Calories Goal'],
+            datasets: [{
+                label: 'Calories',
+                data: [1400, 2000], // Example data
+                backgroundColor: ['#4caf50', '#FF5733'],
+                borderColor: ['#388e3c', '#c0392b'],
+                borderWidth: 1
+            }]
+        };
+
+        const caloricIntakeConfig = {
+            type: 'bar',
+            data: caloricIntakeData,
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('caloricIntakeChart'), caloricIntakeConfig);
+
+    </script>
+
+</body>
+</html>

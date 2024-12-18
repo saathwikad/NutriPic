@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Read Articles</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; margin: 0; padding: 20px; }
+        h1 { color: hsl(38, 100%, 50%); text-align: center; }
+        .article-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin: 20px; }
+        .article { background-color: #ffffff; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); text-align: center; }
+        .article h2 { font-size: 18px; color: hsl(38, 100%, 50%); }
+        .article p { font-size: 14px; color: #555; }
+        .read-more { padding: 10px 15px; color: white; background-color: hsl(38, 100%, 50%); border-radius: 5px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <h1>Read Articles</h1>
+    <div class="article-container">
+        {% for article in articles %}
+        <div class="article">
+            <h2>{{ article.title }}</h2>
+            <p>{{ article.content[:100] }}...</p>
+            <!-- Corrected the endpoint name to 'view_article' -->
+            <a href="{{ url_for('view_article', article_id=article.id) }}" class="read-more">Read More</a>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
